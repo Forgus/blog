@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Java NIO 缓冲区 - Forgus | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://localhost/2019/03/24/Java_NIO_Buffer/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('undefined')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#NIO" title="NIO">NIO</a>
+                            
+                        </div>
+                        <h1>Java NIO 缓冲区</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Forgus on
+                            2019-03-24
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Achilles&#39; Heel</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <blockquote>
+<p>Java NIO 缓冲区和通道配合使用。如你所知，数据可以从通道读进缓冲区，也可以从缓冲区写进通道。<br>
+缓冲区本质上是一块用于数据读写的内存。这块内存被包装成NIO Buffer对象，并提供了一系列的方法使得操作内存变得更加容易。</p>
+</blockquote>
+<h2 id="buffer的简单用法">Buffer的简单用法</h2>
+<p>用Buffer读写数据一般分为以下4个步骤：</p>
+<ol>
+<li>将数据写入Buffer</li>
+<li>调用buffer.flip()方法</li>
+<li>从Buffer读取数据</li>
+<li>调用buffer.clear()方法或者buffer.compact()方法</li>
+</ol>
+<p>当你往一个buffer里写数据的时候，buffer会记录你已经写了多少数据。一旦你需要读取数据，你需要调用flip()方法将buffer从写模式切换为读模式。在读模式下，你可以读取之前写入到buffer的所有数据。</p>
+<p>一旦你已经读完了所有数据，你需要情况缓冲区，使之可以再次被写入。有两种方法可以清理buffer：调用clear()方法或者调用compact()方法。clear()方法会清空整个缓冲区。compact()方法只清除已经读过的数据。任何未被读取的数据被移动到缓冲区的起始处，之后数据将从那些未读数据的后面位置开始写入。</p>
+<p>以下是一个简单的Buffer使用举例：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">RandomAccessFile</span> aFile = new RandomAccessFile(<span class="string">"data/nio-data.txt"</span>, <span class="string">"rw"</span>)<span class="comment">;</span></span><br><span class="line"><span class="symbol">FileChannel</span> inChannel = aFile.getChannel()<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">//create <span class="keyword">buffer </span>with capacity of <span class="number">48</span> <span class="keyword">bytes</span></span><br><span class="line"><span class="keyword">ByteBuffer </span><span class="keyword">buf </span>= <span class="keyword">ByteBuffer.allocate(48);</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line"><span class="keyword">int </span><span class="keyword">bytesRead </span>= inChannel.read(<span class="keyword">buf); </span>//read into <span class="keyword">buffer.</span></span><br><span class="line"><span class="keyword">while </span>(<span class="keyword">bytesRead </span>!= -<span class="number">1</span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">buf.flip(); </span> //make <span class="keyword">buffer </span>ready for read</span><br><span class="line"></span><br><span class="line">  <span class="meta">while</span>(<span class="keyword">buf.hasRemaining())&#123;</span></span><br><span class="line"><span class="keyword"> </span>     System.out.print((char) <span class="keyword">buf.get()); </span>// read <span class="number">1</span> <span class="keyword">byte </span>at a time</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">buf.clear(); </span>//make <span class="keyword">buffer </span>ready for writing</span><br><span class="line">  <span class="keyword">bytesRead </span>= inChannel.read(<span class="keyword">buf);</span></span><br><span class="line"><span class="keyword">&#125;</span></span><br><span class="line"><span class="keyword">aFile.close();</span></span><br></pre></td></tr></table></figure>
+<h2 id="buffer的capacityposition和limit">Buffer的Capacity，Position和Limit</h2>
+<p>buffer本质上是一块可读写的内存区域。这块内存被包装成NIO Buffer对象，并提供了一组方法，用来方便的访问该块内存。</p>
+<p>为了理解buffer的工作原理，你需要熟悉下buffer的三个属性。它们是：</p>
+<ul>
+<li>capacity</li>
+<li>position</li>
+<li>limit</li>
+</ul>
+<p><code>position</code>和<code>limit</code>的含义取决于buffer是处于读模式还是写模式。<code>capacity</code>则在读模式和写模式下拥有相同的含义。下文会详细解释，先看下原理图：</p>
+<p><img src="http://tutorials.jenkov.com/images/java-nio/buffers-modes.png" alt></p>
+<h3 id="capacity">Capacity</h3>
+<p>作为一块内存区域，buffer有一个固定的大小值，称为&quot;capacity&quot;。你最多可以往buffer里写入capacity个byte、long、char等类型的数据。一旦buffer满了，在你往你写入更多数据前，你需要清空它(通过读取数据或者清除数据)。</p>
+<h3 id="position">Position</h3>
+<p>当往buffer里写数据时，position表示当前的位置。初始的position值为0。当一个byte、long等类型数据写到buffer后，position会向前移动到下一个可插入数据的buffer单元。position最大可为capacity - 1。</p>
+<p>当从buffer读数据时，也是从某个特定位置读。当你将buffer从写模式切换到读模式，position被重置为0。这样读数据的时候就从position所在位置往前移动指向下一个位置进行数据读取。</p>
+<h3 id="limit">Limit</h3>
+<p>limit在buffer写模式里的含义是你最多可以写入的数据量。写模式下limit的值等于buffer的capacity。</p>
+<p>当切换Buffer到读模式时， limit表示你最多能读到多少数据。因此，当切换Buffer到读模式时，limit会被设置成写模式下的position值。换句话说，你能读到之前写入的所有数据（limit被设置成已写数据的数量，这个值在写模式下就是position）</p>
+<h2 id="缓冲区类型">缓冲区类型</h2>
+<p>Java NIO 有以下缓冲区类型：</p>
+<ul>
+<li>ByteBuffer</li>
+<li>MappedByteBuffer</li>
+<li>CharBuffer</li>
+<li>DoubleBuffer</li>
+<li>FloatBuffer</li>
+<li>IntBuffer</li>
+<li>LongBuffer</li>
+<li>ShortBuffer</li>
+</ul>
+<p>如你所见，这些buffer代表了不同的数据类型。换句话说，它们可以让你在缓冲区里以char，short，int，long，float或者double类型来处理字节。</p>
+<p>MappedByteBuffer有一点特殊，会单独介绍。</p>
+<h2 id="分配缓冲区">分配缓冲区</h2>
+<p>为了获得一个Buffer对象你必须先为它分配内存。每一个buffer类都有一个allocate()方法用来完成这项工作。以下是一个用<code>ByteBuffer</code>分配内存的例子，缓冲区容量大小48字节：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ByteBuffer buf = ByteBuffer.allocate(<span class="number">48</span>);</span><br></pre></td></tr></table></figure>
+<p>这是另一个例子，用<code>CharBuffer</code>类分配1024个字符大小的缓冲区：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CharBuffer buf = CharBuffer.allocate(<span class="number">1024</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="向缓冲区写数据">向缓冲区写数据</h2>
+<p>有两种方式可以往一个buffer里写数据：</p>
+<ol>
+<li>从Channel往buffer里写数据。</li>
+<li>通过buffer的<code>put()</code>方法直接往buffer里写数据。</li>
+</ol>
+<p>以下是一个从Channel往buffer里写数据的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> bytesRead = inChannel.read(buf); <span class="comment">//read into buffer.</span></span><br></pre></td></tr></table></figure>
+<p>这是另一个例子，通过<code>put()</code>方法往buffer里写数据：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">buf.put(<span class="number">127</span>)</span><br></pre></td></tr></table></figure>
+<p>有很多其他版本的<code>put()</code>方法，允许你以各种不同的方式往buffer里写数据。比如，从指定位置开始写入，或者以字节数组的方式写入。可以查看JavaDoc获取更多buffer实现的细节。</p>
+<h3 id="flip">flip()</h3>
+<p><code>flip()</code>方法用于将buffer从写模式切换成读模式。调用flip()方法会将position重设为0，同时将limit设置为先前position所在位置的值。</p>
+<p>换句话说，position现在标记的是读取的位置，而limit标记的是有多少字节，字符被写进了buffer——有多少字节，字符可以被读取。</p>
+<h2 id="从缓冲区读数据">从缓冲区读数据</h2>
+<p>有两种方式可以从缓冲区读取数据：</p>
+<ol>
+<li>将数据从buffer读进channel。</li>
+<li>用get()方法直接从buffer读取数据。</li>
+</ol>
+<p>以下是一个将数据从buffer读进channel的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//read from buffer into channel.</span></span><br><span class="line"><span class="keyword">int</span> bytesWritten = inChannel.write(buf);</span><br></pre></td></tr></table></figure>
+<p>以下则是用get()方法从buffer读取数据的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">byte</span> aByte = buf.get();</span><br></pre></td></tr></table></figure>
+<p>有很多其他版本的get()方法，允许你以各种不同的方式从buffer读取数据。比如，从指定位置开始读取，或者以字节数组的方式读取。可以查看JavaDoc获取buffer实现的更多信息。</p>
+<h3 id="rewind">rewind()</h3>
+<p>Buffer.rewind()方法将position设置为0，这样你可以重新读取buffer里的所有数据。limit保留未触碰的，这样仍然标记有多少元素(字节，字符等)可以从buffer读取。</p>
+<h3 id="clear和compact">clear()和compact()</h3>
+<p>一旦你已经完成了从buffer里读取数据的工作，你必须让buffer做好再次写入的准备。这可以通过调用clear()方法或者compact()。</p>
+<p>如果调用clear()方法，position被设置为0，limit被设置为容量大小。换句话说，缓冲区被清空了。缓冲区里的数据没有被清除。只是这些标记告诉我们可以从哪里开始往buffer里写数据。</p>
+<p>如果缓冲区里还有未读的数据，当你调用clear()方法时，数据会被&quot;遗忘&quot;，这意味着你将不再有任何标记可以告知你哪些数据已被读取，哪些数据还未被读取。</p>
+<p>如果缓冲区里仍然有未读的数据，而你想要在之后继续读取，因为目前需要进行一些写操作，那么可以用compact()方法来取代clear()。</p>
+<p>compact()方法会复制所有未读的数据放到缓冲区的开始位置。然后它会将position设置在最后未读元素的下一个位置。limit属性依然被设置为容量大小，就像clear()方法一样。现在buffer已经做好了写入的准备，而你不会覆盖未读的数据。</p>
+<h3 id="mark和reset">mark()和reset()</h3>
+<p>你可以通过调用Buffer.mark()方法标记buffer里的某个位置。然后你在之后可以重置position到标记的位置。举例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">buffer.mark();</span><br><span class="line"></span><br><span class="line"><span class="comment">//call buffer.get() a couple of times, e.g. during parsing.</span></span><br><span class="line"></span><br><span class="line">buffer.reset();  <span class="comment">//set position back to mark.</span></span><br></pre></td></tr></table></figure>
+<h3 id="equals和compareto">equals()和compareTo()</h3>
+<p>比较两个缓冲区可以通过equals()方法和compareTo()方法。</p>
+<h4 id="equals">equals()</h4>
+<p>两个buffer相等的条件如下：</p>
+<ol>
+<li>类型相同(字节，字符，整形等)。</li>
+<li>buffer里有等量的剩余数据。</li>
+<li>所有剩余的数据相等。</li>
+</ol>
+<p>如你所见，equals()方法仅比较buffer的一部分，并不比较里面所有的单个元素。实际上，它只比较buffer里剩余的数据。</p>
+<h4 id="compareto">compareTo()</h4>
+<p>compareTo()方法比较两个buffer剩余元素，用于例如常规排序。一个buffer比另一个buffer小的条件如下：</p>
+<ol>
+<li>buffer的首个元素小于另一个buffer。</li>
+<li>所有元素相等，但是第一个buffer比另一个buffer更早用完(它拥有更少的元素)。</li>
+</ol>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2019/03/16/Java_NIO_Channel/" data-toggle="tooltip" data-placement="top" title="Java NIO 通道">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#buffer的简单用法"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Buffer的简单用法</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#buffer的capacityposition和limit"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Buffer的Capacity，Position和Limit</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#capacity"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">Capacity</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#position"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">Position</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#limit"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">Limit</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#缓冲区类型"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">缓冲区类型</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#分配缓冲区"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">分配缓冲区</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#向缓冲区写数据"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">向缓冲区写数据</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#flip"><span class="toc-nav-number">5.1.</span> <span class="toc-nav-text">flip()</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#从缓冲区读数据"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">从缓冲区读数据</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#rewind"><span class="toc-nav-number">6.1.</span> <span class="toc-nav-text">rewind()</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#clear和compact"><span class="toc-nav-number">6.2.</span> <span class="toc-nav-text">clear()和compact()</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#mark和reset"><span class="toc-nav-number">6.3.</span> <span class="toc-nav-text">mark()和reset()</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#equals和compareto"><span class="toc-nav-number">6.4.</span> <span class="toc-nav-text">equals()和compareTo()</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#equals"><span class="toc-nav-number">6.4.1.</span> <span class="toc-nav-text">equals()</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#compareto"><span class="toc-nav-number">6.4.2.</span> <span class="toc-nav-text">compareTo()</span></a></li></ol></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: ''
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Forgus 2019 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a>
+                    <!--<span style="display: inline-block; margin: 0 5px;">-->
+                        <!--<i class="fa fa-heart"></i>-->
+                    <!--</span>-->
+                    <!--re-Ported by <a href="http://beantech.org">BeanTech</a> |-->
+                    <!--<iframe-->
+                        <!--style="margin-left: 2px; margin-bottom:-5px;"-->
+                        <!--frameborder="0" scrolling="0" width="91px" height="20px"-->
+                        <!--src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >-->
+                    <!--</iframe>-->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://localhost/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+    <a id="gotop" href="#">
+    <span>▲</span>
+</a>
+
+<script src="/js/bootstrap.js"></script>
+<script src="/js/search.js"></script>
+
+
+
+
+    <script type="text/javascript">
+        var search_path = "search.xml";
+        if (search_path.length == 0) {
+            search_path = "search.xml";
+        }
+        var path = "/" + search_path;
+        searchFunc(path, 'local-search-input', 'local-search-result');
+    </script>
+
+
+<!-- syntax highlighting -->
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://localhost/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
