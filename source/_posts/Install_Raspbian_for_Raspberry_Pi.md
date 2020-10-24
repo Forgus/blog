@@ -127,6 +127,12 @@ sudo apt-get dist-upgrade
 sudo rpi-update（耗时操作）
 ```
 
+#### 配置npm镜像
+
+```bash
+npm config set registry https://registry.npm.taobao.org
+```
+
 ### 更改分区文件大小
 
 #### 编辑分区文件

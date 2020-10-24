@@ -29,8 +29,8 @@ Server = https://mirrors.zju.edu.cn/archlinuxcn/$arch
 
 ```shell
 sudo pacman-mirrors -c China
-sudo pacman -Syu
-sudo pacman -S archlinuxcn-keyring
+sudo pacman -Syu -y # 耗时操作
+sudo pacman -S archlinuxcn-keyring -y
 # 设置dpi
 vim ~/.Xresources
 Xft.dpi:166
@@ -72,7 +72,7 @@ fish_config
 alias c clear
 funcsave c
 alias s screenfetch
-funcsave c
+funcsave s
 ```
 
 ### 美化
@@ -89,12 +89,12 @@ sudo pacman -S feh
 sudo pacman -S variety
 variety
 ```
-### vim
+### neovim
 
 #### 安装
 
 ```shell
-sudo pacman -S vim
+sudo pacman -S neovim
 ```
 
 
@@ -139,17 +139,6 @@ Super+f
 Super+jkl;
 #调整窗口大小
 Super+r
-```
-### st(simple terminal)
-```shell
-git clone https://git.suckless.org/st
-cd st
-vim config.mk
-X11INC = /usr/include/X11
-X11LIB = /usr/include/X11
-sudo make clean install
-st
-vim config.h
 ```
 
 ### alacritty
