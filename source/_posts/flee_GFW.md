@@ -8,7 +8,7 @@ tags:
 ---
 ## Homebrew 镜像源进行加速
 
-### 1. 替换 / 还原 brew.git 仓库地址
+### 替换 / 还原 brew.git 仓库地址
 ```shell
 # 替换成阿里巴巴的 brew.git 仓库地址: 
 cd "$(brew --repo)" 
@@ -17,7 +17,7 @@ git remote set-url origin https://mirrors.aliyun.com/homebrew/brew.git**
 cd "$(brew --repo)" 
 git remote set-url origin https://github.com/Homebrew/brew.git
 ```
-### 2. 替换 / 还原 homebrew-core.git 仓库地址
+### 替换 / 还原 homebrew-core.git 仓库地址
 ```shell
 # 替换成阿里巴巴的 homebrew-core.git 仓库地址: 
 cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core" 
@@ -27,7 +27,7 @@ cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core"
 git remote set-url origin https://github.com/Homebrew/homebrew-core.git
 ```
 
-### 3. 替换 / 还原 homebrew-bottles 访问地址
+### 替换 / 还原 homebrew-bottles 访问地址
 ```shell
 # ZSH 替换 homebrew-bottles 访问地址: 
 echo 'export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.aliyun.com/homebrew/homebrew-bottles' >> ~/.zshrc 
@@ -38,7 +38,7 @@ vim ~/.zshrc
 source ~/.bash_profile
 ```
 
-### Gradle镜像
+## Gradle镜像源
 打开全局配置文件
 ```shell
 nvim ~/.gradle/init.gradle
