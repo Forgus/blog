@@ -1,7 +1,7 @@
 ---
 title: 安装zsh
 catalog: true
-date: 2020-02-06
+date: 2018-02-06
 tags:
 - Shell
 - Linux

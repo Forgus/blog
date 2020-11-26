@@ -7,6 +7,7 @@ tags:
 - 开发工具
 - colemak
 ---
+以下为适用于colemak键盘的vim基础配置：
 ```
 noremap Q :q<CR>
 noremap <C-q> :qa<CR>

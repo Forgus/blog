@@ -1,6 +1,6 @@
 ---
 title: 读懂shell脚本
-date: 2020-02-14
+date: 2018-02-14
 catalog: true
 tags:
 - Shell

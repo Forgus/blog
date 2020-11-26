@@ -1,6 +1,6 @@
 ---
 title: Jenkins安装教程
-date: 2020-03-31
+date: 2018-03-31
 catalog: true
 tags:
 - Jenkins

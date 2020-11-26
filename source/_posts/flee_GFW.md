@@ -1,7 +1,7 @@
 ---
 title: 各类软件镜像源配置
 catalog: true
-date: 2020-11-02
+date: 2018-11-02
 tags:
 - mirrors
 - Linux
