@@ -71,4 +71,8 @@ iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim |`
 
 `:PlugInstall`
 
+`:CocInstall coc-tsserver`
+
+`:CocInstall coc-pyright`
+
 ## Mac OS
