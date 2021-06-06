@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          配置Manjaro - Forgus | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://localhost/2020/05/31/config_manjaro/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('undefined')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Linux" title="Linux">Linux</a>
+                            
+                              <a class="tag" href="/tags/#Manjaro" title="Manjaro">Manjaro</a>
+                            
+                        </div>
+                        <h1>配置Manjaro</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Forgus on
+                            2020-05-31
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Achilles&#39; Heel</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="切换源">切换源</h2>
+<p>打开配置文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/pacman.conf</span><br></pre></td></tr></table></figure>
+<p>添加如下配置：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[archlinuxcn]</span></span><br><span class="line"><span class="attr">SigLevel</span> = Never</span><br><span class="line"><span class="comment"># 浙大源</span></span><br><span class="line"><span class="attr">Server</span> = https://mirrors.zju.edu.cn/archlinuxcn/<span class="variable">$arch</span></span><br><span class="line"><span class="comment"># 清华源</span></span><br><span class="line"><span class="comment"># Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch</span></span><br></pre></td></tr></table></figure>
+<p>更新源：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman-mirrors -c China</span><br><span class="line">sudo pacman -Syu -y # 耗时操作</span><br><span class="line">sudo pacman -S archlinuxcn-keyring -y</span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置dpi</span></span><br><span class="line">vim ~/.Xresources</span><br><span class="line">Xft.dpi:166</span><br><span class="line"><span class="meta">#</span><span class="bash"> 重启</span></span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+<h2 id="软件安装">软件安装</h2>
+<h3 id="fish">fish</h3>
+<h4 id="安装">安装</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装fish</span></span><br><span class="line">sudo pacman -S fish</span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装oh-my-fish</span></span><br><span class="line">git clone https://github.com/oh-my-fish/oh-my-fish</span><br><span class="line">cd oh-my-fish</span><br><span class="line">bin/install --offline</span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置fish为默认shell</span></span><br><span class="line">which fish</span><br><span class="line">chsh -s /usr/bin/fish</span><br><span class="line"><span class="meta">#</span><span class="bash"> 天气插件</span></span><br><span class="line">omf install wttr</span><br></pre></td></tr></table></figure>
+<h4 id="配置">配置</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 配置主题</span></span><br><span class="line">fish_config</span><br></pre></td></tr></table></figure>
+<h4 id="使用">使用</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 设置快捷键</span></span><br><span class="line">alias c clear</span><br><span class="line">funcsave c</span><br><span class="line">alias s screenfetch</span><br><span class="line">funcsave s</span><br></pre></td></tr></table></figure>
+<h3 id="美化">美化</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 窗口渲染器</span></span><br><span class="line">sudo pacman -S compton</span><br><span class="line">compton</span><br><span class="line"><span class="meta">#</span><span class="bash"> ui美化</span></span><br><span class="line">sudo pacman -S lxappearance</span><br><span class="line">lxappearance</span><br><span class="line"><span class="meta">#</span><span class="bash"> 动态壁纸</span></span><br><span class="line">sudo pacman -S feh</span><br><span class="line">sudo pacman -S variety</span><br><span class="line">variety</span><br></pre></td></tr></table></figure>
+<h3 id="neovim">neovim</h3>
+<h4 id="安装">安装</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S neovim</span><br></pre></td></tr></table></figure>
+<h3 id="i3">i3</h3>
+<h4 id="安装">安装</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S i3</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+<h4 id="配置">配置</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.config/i3/config</span><br><span class="line">bindsym $mod+Return exec alacritty</span><br><span class="line">bindsym $mod+c exec firefox</span><br><span class="line">exec_always variety</span><br><span class="line">exec_always compton</span><br><span class="line">exec_always sleep 1; xmodmap ~/.xmodmap</span><br><span class="line">exec_always kill screenkey</span><br><span class="line">gaps inner 15</span><br><span class="line"><span class="meta">#</span><span class="bash">去边框</span></span><br><span class="line">new_window 1pixel</span><br><span class="line"><span class="meta">#</span><span class="bash">刷新配置</span></span><br><span class="line">Super+Shift+r</span><br></pre></td></tr></table></figure>
+<h4 id="使用">使用</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 分屏</span></span><br><span class="line">Super+return</span><br><span class="line"><span class="meta">#</span><span class="bash"> 水平分屏模式</span></span><br><span class="line">Super+v</span><br><span class="line"><span class="meta">#</span><span class="bash"> 垂直分屏模式</span></span><br><span class="line">Super+h</span><br><span class="line"><span class="meta">#</span><span class="bash">全屏</span></span><br><span class="line">Super+f</span><br><span class="line"><span class="meta">#</span><span class="bash">窗口切换</span></span><br><span class="line">Super+jkl;</span><br><span class="line"><span class="meta">#</span><span class="bash">调整窗口大小</span></span><br><span class="line">Super+r</span><br></pre></td></tr></table></figure>
+<h3 id="alacritty">alacritty</h3>
+<h4 id="安装">安装</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> alacritty</span></span><br><span class="line">sudo pacman -S alacritty</span><br></pre></td></tr></table></figure>
+<h4 id="配置">配置</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 设置终端透明度</span></span><br><span class="line">vim ~/.config/alacritty/alacritty.yml</span><br><span class="line">background_opacity: 0.6</span><br></pre></td></tr></table></figure>
+<h3 id="ranger">ranger</h3>
+<h4 id="安装">安装</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S ranger</span><br></pre></td></tr></table></figure>
+<h3 id="其他">其他</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">pacman 高亮</span></span><br><span class="line">sudo -E vim /etc/pacman.conf</span><br><span class="line">Color</span><br><span class="line"><span class="meta">#</span><span class="bash"> dmenu</span></span><br><span class="line">sudo pacman -S dmenu</span><br><span class="line">Super+d</span><br><span class="line"><span class="meta">#</span><span class="bash"> 改建</span></span><br><span class="line">sudo pacman -S xorg</span><br><span class="line">xmodmap -pke &gt; ~/.xmodmap</span><br><span class="line">vim ~/.xmodmap</span><br><span class="line">xev</span><br><span class="line">xmodmap ~/.xmodmap</span><br><span class="line"><span class="meta">#</span><span class="bash"> 中文输入法</span></span><br><span class="line">sudo pacman -S fcitx fcitx-im fcitx-configtool</span><br><span class="line">sudo pacman -S fcitx-googlepinyin</span><br><span class="line">vim ~/.xprofile</span><br><span class="line">export GTK_TM_MODULE=fcitx</span><br><span class="line">export QT_IM_MODULE=fcitx</span><br><span class="line">export XMODIFIERS="@im=fcitx"</span><br><span class="line">reboot</span><br><span class="line">fcitx-configtool</span><br><span class="line"><span class="meta">#</span><span class="bash"> 谷歌浏览器</span></span><br><span class="line">sudo pacman -S chromium</span><br><span class="line"><span class="meta">#</span><span class="bash"> office</span></span><br><span class="line">sudo pacman -S libreoffice</span><br><span class="line"><span class="meta">#</span><span class="bash"> 视频播放软件</span></span><br><span class="line">sudo pacman -S vlc </span><br><span class="line"><span class="meta">#</span><span class="bash"> 状态栏</span></span><br><span class="line">sudo pacman -S polybar</span><br><span class="line"><span class="meta">#</span><span class="bash"> i3-gap3</span></span><br><span class="line">sudo pacman -S i3-gaps</span><br></pre></td></tr></table></figure>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2020/06/06/Use_neovim_as_python_IDE/" data-toggle="tooltip" data-placement="top" title="使用Neovim打造Python IDE">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2020/05/14/Use_Python/" data-toggle="tooltip" data-placement="top" title="Python简明手册">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#切换源"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">切换源</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#软件安装"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">软件安装</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#fish"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">fish</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#安装"><span class="toc-nav-number">2.1.1.</span> <span class="toc-nav-text">安装</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#配置"><span class="toc-nav-number">2.1.2.</span> <span class="toc-nav-text">配置</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#使用"><span class="toc-nav-number">2.1.3.</span> <span class="toc-nav-text">使用</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#美化"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">美化</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#neovim"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">neovim</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#安装"><span class="toc-nav-number">2.3.1.</span> <span class="toc-nav-text">安装</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#i3"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text">i3</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#安装"><span class="toc-nav-number">2.4.1.</span> <span class="toc-nav-text">安装</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#配置"><span class="toc-nav-number">2.4.2.</span> <span class="toc-nav-text">配置</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#使用"><span class="toc-nav-number">2.4.3.</span> <span class="toc-nav-text">使用</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#alacritty"><span class="toc-nav-number">2.5.</span> <span class="toc-nav-text">alacritty</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#安装"><span class="toc-nav-number">2.5.1.</span> <span class="toc-nav-text">安装</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#配置"><span class="toc-nav-number">2.5.2.</span> <span class="toc-nav-text">配置</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#ranger"><span class="toc-nav-number">2.6.</span> <span class="toc-nav-text">ranger</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#安装"><span class="toc-nav-number">2.6.1.</span> <span class="toc-nav-text">安装</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#其他"><span class="toc-nav-number">2.7.</span> <span class="toc-nav-text">其他</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: ''
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Forgus 2020 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a>
+                    <!--<span style="display: inline-block; margin: 0 5px;">-->
+                        <!--<i class="fa fa-heart"></i>-->
+                    <!--</span>-->
+                    <!--re-Ported by <a href="http://beantech.org">BeanTech</a> |-->
+                    <!--<iframe-->
+                        <!--style="margin-left: 2px; margin-bottom:-5px;"-->
+                        <!--frameborder="0" scrolling="0" width="91px" height="20px"-->
+                        <!--src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >-->
+                    <!--</iframe>-->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://localhost/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+    <a id="gotop" href="#">
+    <span>▲</span>
+</a>
+
+<script src="/js/bootstrap.js"></script>
+<script src="/js/search.js"></script>
+
+
+
+
+    <script type="text/javascript">
+        var search_path = "search.xml";
+        if (search_path.length == 0) {
+            search_path = "search.xml";
+        }
+        var path = "/" + search_path;
+        searchFunc(path, 'local-search-input', 'local-search-result');
+    </script>
+
+
+<!-- syntax highlighting -->
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://localhost/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

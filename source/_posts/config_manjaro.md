@@ -33,7 +33,7 @@ sudo pacman -Syu -y # 耗时操作
 sudo pacman -S archlinuxcn-keyring -y
 # 设置dpi
 vim ~/.Xresources
-Xft.dpi:166
+Xft.dpi:192
 # 重启
 reboot
 ```
@@ -55,8 +55,6 @@ bin/install --offline
 # 设置fish为默认shell
 which fish
 chsh -s /usr/bin/fish
-# 天气插件
-omf install wttr
 ```
 #### 配置
 
@@ -73,6 +71,8 @@ alias c clear
 funcsave c
 alias s screenfetch
 funcsave s
+# export
+set -x XDG_CONFIG_HOME ~/.config
 ```
 
 ### 美化
@@ -95,6 +95,15 @@ variety
 
 ```shell
 sudo pacman -S neovim
+```
+#### peizhi
+```shell
+cd ~/.config
+git clone https://github.com/Forgus/nvim.git
+cd nvim
+git checkout core-qwerty
+nvim init.vim
+:PlugInstall
 ```
 
 
