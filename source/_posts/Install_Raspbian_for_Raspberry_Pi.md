@@ -61,26 +61,6 @@ tags:
 
 `sudo passwd root`
 
-### 安装vim
-``` bash
-sudo apt-get remove vim-common
-sudo apt-get install vim -y
-```
-用命令`vim ~/.vimrc`打开配置文件，配置语法高亮：
-
-```
-syn on
-```
-### 修改主机名
-
-`sudo vim /etc/hostname`
-
-替换内容为model3B
-
-`sudo vim /etc/hosts`
-
-替换`127.0.0.1 raspberry` 为`127.0.0.1 model3B`
-
 
 ### 替换Raspbian软件源
 
@@ -97,34 +77,29 @@ sudo cp /etc/apt/sources.list.d/raspi.list /etc/apt/sources.list.d/raspi.list.ba
 2. 删除原文件内容，用以下内容取代：
 
 ```bash
-deb http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ stretch main contrib non-free rpi
-deb-src http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ stretch main contrib non-free rpi
+deb http://mirrors.ustc.edu.cn/raspbian/raspbian/ bullseye main contrib non-free rpi
+deb-src http://mirrors.ustc.edu.cn/raspbian/raspbian/ bullseye main contrib non-free rpi
 ```
 
-*注：此处示例为**stretch**系统，**jessie**和**wheezy**类推。*
+*注：此处示例为**bullseye**版本，其他版本类推。*
 
 #### 编辑系统源配置
 
 1. 编辑系统更新源文件，参考命令：`sudo vim /etc/apt/sources.list.d/raspi.list`。
-2. 修改首行网址，如下：
+2. 用以下内容取代：
 
 ```bash
-deb http://mirror.tuna.tsinghua.edu.cn/raspberrypi/ stretch main ui
-deb-src http://mirror.tuna.tsinghua.edu.cn/raspberrypi/ stretch main ui
-# Uncomment line below then 'apt-get update' to enable 'apt-get source'
-#deb-src http://archive.raspberrypi.org/debian/ stretch main ui
+deb http://mirrors.ustc.edu.cn/archive.raspberrypi.org/debian/ bullseye main ui
+deb-src http://mirrors.ustc.edu.cn/archive.raspberrypi.org/debian/ bullseye main ui
 ```
 
 #### 更新
 
 ```bash
 #更新软件源列表
-sudo apt-get update
+sudo apt update
 #更新软件版本
-sudo apt-get upgrade（耗时操作）
-sudo apt-get dist-upgrade
-#更新系统内核
-sudo rpi-update（耗时操作）
+sudo apt full-upgrade
 ```
 
 #### 配置npm镜像
@@ -162,3 +137,42 @@ sudo /etc/init.d/dphys-swapfile start
 free -m
 ```
 
+#### 软件安装
+
+```bash
+#nodejs
+sudo apt install nodejs npm
+npm config set registry https://registry.npm.taobao.org
+#pip3
+sudo apt install python3-venv python3-pip
+#docker
+sudo apt-get remove docker docker-engine docker.io containerd runc
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+sudo nvim /etc/docker/daemon.json
+{
+  "registry-mirrors": ["https://docker.mirrors.ustc.edu.cn/"]
+}
+sudo systemctl restart docker
+#docker-compose
+sudo pip3 install docker-compose
+#portainer
+docker volume create portainer_data
+docker run -d -p 8000:8000 -p 9000:9000 --name portainer \
+    --restart=always \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v portainer_data:/data \
+    portainer/portainer-ce:2.11.0
+#home-assistant docker-compose.yml
+version: '3'
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - /home/pi/.config/home-assistant:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+```
