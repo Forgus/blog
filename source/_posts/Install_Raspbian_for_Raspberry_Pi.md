@@ -30,10 +30,14 @@ tags:
    update_config=1
    
    network={
-       ssid="WiFi名称"
-       psk="WiFi密码"
-       key_mgmt=WPA-PSK
+       ssid="TP-LINK_2201_5G"
+       psk="15958045616"
        priority=1
+   }
+   
+   network={
+       ssid="TP-LINK_2201"
+       psk="15958045616"
    }
    ```
 
@@ -51,15 +55,24 @@ tags:
 3. 使用`ssh pi@192.168.21.172`免密登录服务器
 
 ## 系统配置
-### 启用root账号
+```bash
+#设置root密码
+sudo passwd root
+#允许远程登录
+nvim /etc/ssh/sshd_config
+PermitRootLogin yes
+#设置主机名
+nvim /etc/hosts
+nvim /etc/hostname
+# 切换经典网络
+sudo apt install iptables
+sudo iptables -F
+sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
+sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+# appending cgroup_memory=1 cgroup_enable=memory to /boot/cmdline.txt
+```
 
-解锁root账号
 
-`sudo passwd --unlock root`
-
-设置root密码
-
-`sudo passwd root`
 
 
 ### 替换Raspbian软件源
@@ -77,8 +90,12 @@ sudo cp /etc/apt/sources.list.d/raspi.list /etc/apt/sources.list.d/raspi.list.ba
 2. 删除原文件内容，用以下内容取代：
 
 ```bash
-deb http://mirrors.ustc.edu.cn/raspbian/raspbian/ bullseye main contrib non-free rpi
-deb-src http://mirrors.ustc.edu.cn/raspbian/raspbian/ bullseye main contrib non-free rpi
+deb https://mirrors.ustc.edu.cn/debian/ bullseye main contrib non-free
+# deb-src http://mirrors.ustc.edu.cn/debian bullseye main contrib non-free
+deb https://mirrors.ustc.edu.cn/debian/ bullseye-updates main contrib non-free
+# deb-src http://mirrors.ustc.edu.cn/debian bullseye-updates main contrib non-free
+deb https://mirrors.ustc.edu.cn/debian-security bullseye-security main contrib non-free
+# deb-src http://mirrors.ustc.edu.cn/debian-security/ bullseye-security main non-free contrib
 ```
 
 *注：此处示例为**bullseye**版本，其他版本类推。*
@@ -89,8 +106,8 @@ deb-src http://mirrors.ustc.edu.cn/raspbian/raspbian/ bullseye main contrib non-
 2. 用以下内容取代：
 
 ```bash
-deb http://mirrors.ustc.edu.cn/archive.raspberrypi.org/debian/ bullseye main ui
-deb-src http://mirrors.ustc.edu.cn/archive.raspberrypi.org/debian/ bullseye main ui
+deb http://mirrors.ustc.edu.cn/archive.raspberrypi.org/debian/ bullseye main
+#deb-src http://mirrors.ustc.edu.cn/archive.raspberrypi.org/debian/ bullseye main
 ```
 
 #### 更新
@@ -140,22 +157,33 @@ free -m
 #### 软件安装
 
 ```bash
+#fish
+apt install fish
+set -Ux XDG_CONFIG_HOME /root/.config/
 #nodejs
-sudo apt install nodejs npm
+apt install nodejs npm
 npm config set registry https://registry.npm.taobao.org
 #pip3
-sudo apt install python3-venv python3-pip
+apt install python3-venv python3-pip
+#iperf3
+apt install iperf3
+iperf3 -p 3005 -s
+iperf3 -c pi4b -p 3005
 #docker
-sudo apt-get remove docker docker-engine docker.io containerd runc
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-sudo nvim /etc/docker/daemon.json
-{
-  "registry-mirrors": ["https://docker.mirrors.ustc.edu.cn/"]
-}
-sudo systemctl restart docker
+apt-get remove docker docker-engine docker.io containerd runc
+curl -SfL https://get.docker.com | sh -
 #docker-compose
-sudo pip3 install docker-compose
+pip3 install docker-compose
+nvim /etc/docker/daemon.json
+{
+  "registry-mirrors": ["https://xx0uqinw.mirror.aliyuncs.com"]
+}
+systemctl restart docker
+sudo reboot
+# k3s
+curl -SfL http://rancher-mirror.cnrancher.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn sh -
+cat /var/lib/rancher/k3s/server/node-token
+curl -SfL http://rancher-mirror.cnrancher.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn K3S_URL=https://192.168.21.150:6443 K3S_TOKEN=K1010afd22677c630d30ccd8952d5f251bbc3732a0f9a0a668c766ef58cf1dcf3bc::server:c0521af90812d97296f8000e5ce9b2c0 sh -
 #portainer
 docker volume create portainer_data
 docker run -d -p 8000:8000 -p 9000:9000 --name portainer \
@@ -175,4 +203,9 @@ services:
     restart: unless-stopped
     privileged: true
     network_mode: host
+    
+docker run --name dashboard \
+           -p 9000:9000        \
+           -v /usr/local/apisix-dashboard/conf/conf.yaml:/usr/local/apisix-dashboard/conf/conf.yaml \
+           apache/apisix-dashboard
 ```
