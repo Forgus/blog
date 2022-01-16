@@ -48,7 +48,7 @@ tags:
 1. 将sd卡插入树莓派，接上电源，等指示灯停止闪烁之后，从路由器管理后台查看树莓派的ip地址。  
 2. 通过以下命令将电脑公钥发送给树莓派：  
 ```
-   ssh-copy-id pi@192.168.21.172
+   ssh-copy-id pi@192.168.21.150
 ```
 之后将提示输入pi用户的密码，初始密码为：raspberry
 
@@ -161,7 +161,7 @@ free -m
 apt install fish
 set -Ux XDG_CONFIG_HOME /root/.config/
 #nodejs
-apt install nodejs npm
+apt install nodejs npm -y
 npm config set registry https://registry.npm.taobao.org
 #pip3
 apt install python3-venv python3-pip
