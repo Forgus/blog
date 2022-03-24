@@ -8,7 +8,7 @@ tags:
 - 建站
 ---
 ## 准备
-1. 先在本地机器从花生壳官网[下载](https://hsk.oray.com/download)树莓派安装包:`phddns_3.0.4_systemd.deb`   
+1. 先在本地机器从花生壳官网[下载](https://hsk.oray.com/download)树莓派安装包:`wget "https://dl-cdn.oray.com/hsk/linux/phddns_5.1.0_rapi_aarch64.deb" -O phddns_5.1.0_rapi_aarch64.deb`   
 2. 通过如下命令将安装包上传到树莓派：  
 
 ```

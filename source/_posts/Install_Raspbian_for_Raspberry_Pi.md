@@ -183,7 +183,7 @@ sudo reboot
 # k3s
 curl -SfL http://rancher-mirror.cnrancher.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn sh -
 cat /var/lib/rancher/k3s/server/node-token
-curl -SfL http://rancher-mirror.cnrancher.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn K3S_URL=https://192.168.21.150:6443 K3S_TOKEN=K1010afd22677c630d30ccd8952d5f251bbc3732a0f9a0a668c766ef58cf1dcf3bc::server:c0521af90812d97296f8000e5ce9b2c0 sh -
+curl -SfL http://rancher-mirror.cnrancher.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn K3S_URL=https://192.168.21.150:6443 K3S_TOKEN=K102c7003d10a7692d952de8144ded1d494fbdfd04b7c7c422493dd21bec3a73985::server:6ab12dd9cbb7bbffa97f4eee5724dd65 sh -
 #portainer
 docker volume create portainer_data
 docker run -d -p 8000:8000 -p 9000:9000 --name portainer \
