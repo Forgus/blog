@@ -1,6 +1,6 @@
 ---
 title: 无线无屏幕安装树莓派
-date: 2019-02-18
+date: 2022-09-21
 catalog: true
 tags:
 - 树莓派
@@ -48,11 +48,11 @@ tags:
 1. 将sd卡插入树莓派，接上电源，等指示灯停止闪烁之后，从路由器管理后台查看树莓派的ip地址。  
 2. 通过以下命令将电脑公钥发送给树莓派：  
 ```
-   ssh-copy-id pi@192.168.21.150
+   ssh-copy-id pi@192.168.1.150
 ```
 之后将提示输入pi用户的密码，初始密码为：raspberry
 
-3. 使用`ssh pi@192.168.21.172`免密登录服务器
+3. 使用`ssh pi@192.168.1.150`免密登录服务器
 
 ## 系统配置
 ```bash
@@ -179,11 +179,13 @@ nvim /etc/docker/daemon.json
   "registry-mirrors": ["https://xx0uqinw.mirror.aliyuncs.com"]
 }
 systemctl restart docker
+#pi-dashboard
+docker run -d --name docker-pi-dashboard -e 'LISTEN=1024' --net=host --restart=always ecat/docker-pi-dashboard
 sudo reboot
 # k3s
 curl -SfL http://rancher-mirror.cnrancher.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn sh -
 cat /var/lib/rancher/k3s/server/node-token
-curl -SfL http://rancher-mirror.cnrancher.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn K3S_URL=https://192.168.21.150:6443 K3S_TOKEN=K102c7003d10a7692d952de8144ded1d494fbdfd04b7c7c422493dd21bec3a73985::server:6ab12dd9cbb7bbffa97f4eee5724dd65 sh -
+curl -SfL http://rancher-mirror.cnrancher.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn K3S_URL=https://192.168.1.150:6443 K3S_TOKEN=K10d7205905e9bb357b372144acef905d4e60d641c34637378e9142a3c19e3e1f82::server:b2c021f7bf19e0ca74adbcfd59765d0e sh -
 #portainer
 docker volume create portainer_data
 docker run -d -p 8000:8000 -p 9000:9000 --name portainer \
