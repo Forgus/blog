@@ -91,11 +91,8 @@ sudo cp /etc/apt/sources.list.d/raspi.list /etc/apt/sources.list.d/raspi.list.ba
 
 ```bash
 deb https://mirrors.ustc.edu.cn/debian/ bullseye main contrib non-free
-# deb-src http://mirrors.ustc.edu.cn/debian bullseye main contrib non-free
 deb https://mirrors.ustc.edu.cn/debian/ bullseye-updates main contrib non-free
-# deb-src http://mirrors.ustc.edu.cn/debian bullseye-updates main contrib non-free
 deb https://mirrors.ustc.edu.cn/debian-security bullseye-security main contrib non-free
-# deb-src http://mirrors.ustc.edu.cn/debian-security/ bullseye-security main non-free contrib
 ```
 
 *注：此处示例为**bullseye**版本，其他版本类推。*
@@ -180,12 +177,17 @@ nvim /etc/docker/daemon.json
 }
 systemctl restart docker
 #pi-dashboard
-docker run -d --name docker-pi-dashboard -e 'LISTEN=1024' --net=host --restart=always ecat/docker-pi-dashboard
+docker run -d --name docker-pi-dashboard -e 'LISTEN=1024' --net=host --restart=always \
+ecat/docker-pi-dashboard
 sudo reboot
 # k3s
-curl -SfL http://rancher-mirror.cnrancher.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn sh -
+curl -SfL http://rancher-mirror.cnrancher.com/k3s/k3s-install.sh \
+| INSTALL_K3S_MIRROR=cn sh -
 cat /var/lib/rancher/k3s/server/node-token
-curl -SfL http://rancher-mirror.cnrancher.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn K3S_URL=https://192.168.1.150:6443 K3S_TOKEN=K10d7205905e9bb357b372144acef905d4e60d641c34637378e9142a3c19e3e1f82::server:b2c021f7bf19e0ca74adbcfd59765d0e sh -
+curl -SfL http://rancher-mirror.cnrancher.com/k3s/k3s-install.sh \
+| INSTALL_K3S_MIRROR=cn K3S_URL=https://192.168.1.150:6443 \
+K3S_TOKEN=K10d7205905e9bb357b372144acef905d4e60d641c34637378e9142\
+a3c19e3e1f82::server:b2c021f7bf19e0ca74adbcfd59765d0e sh -
 #portainer
 docker volume create portainer_data
 docker run -d -p 8000:8000 -p 9000:9000 --name portainer \
@@ -208,6 +210,7 @@ services:
     
 docker run --name dashboard \
            -p 9000:9000        \
-           -v /usr/local/apisix-dashboard/conf/conf.yaml:/usr/local/apisix-dashboard/conf/conf.yaml \
+           -v /usr/local/apisix-dashboard/conf/conf.yaml:\
+		   /usr/local/apisix-dashboard/conf/conf.yaml \
            apache/apisix-dashboard
 ```

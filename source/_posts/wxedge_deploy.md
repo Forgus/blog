@@ -25,10 +25,8 @@ nvim /etc/fstab
 ## 启动容器
 ```bash
 docker login --username=815498030@qq.com registry.cn-hangzhou.aliyuncs.com
-docker run --name=wxedge --privileged --net=host --tmpfs /run --tmpfs /tmp -v /media/wxedge_storage:/storage:rw -e LISTEN_ADDR=":18888" -e NIC=eth0 -e REC=false -d registry.cn-hangzhou.aliyuncs.com/forgus/wxedge:2.4.0
-```
-# pi-dashboard
-
-```bash
-docker run -d --name docker-pi-dashboard -e 'LISTEN=1024' --net=host --restart=always ecat/docker-pi-dashboard
+docker run -d --name=wxedge --privileged --net=host --tmpfs /run --tmpfs /tmp \
+-v /media/wxedge_storage:/storage:rw \
+-e LISTEN_ADDR=":18888" -e NIC=eth0 -e REC=false \
+registry.cn-hangzhou.aliyuncs.com/forgus/wxedge:2.4.0
 ```
