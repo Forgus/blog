@@ -184,7 +184,7 @@ sudo reboot
 curl -SfL http://rancher-mirror.cnrancher.com/k3s/k3s-install.sh \
 | INSTALL_K3S_MIRROR=cn sh -
 cat /var/lib/rancher/k3s/server/node-token
-curl -SfL http://rancher-mirror.cnrancher.com/k3s/k3s-install.sh \
+curl -SfL https://rancher-mirror.oss-cn-beijing.aliyuncs.com/k3s/k3s-install.sh \
 | INSTALL_K3S_MIRROR=cn K3S_URL=https://192.168.1.150:6443 \
 K3S_TOKEN=K10d7205905e9bb357b372144acef905d4e60d641c34637378e9142\
 a3c19e3e1f82::server:b2c021f7bf19e0ca74adbcfd59765d0e sh -
