@@ -20,6 +20,12 @@ mount /dev/sda /media/wxedge_storage
 # 重启自动挂载
 nvim /etc/fstab
 /dev/sda /media/wxedge_storage ext4 defaults 0 0
+# macOS 下格式化移动硬盘
+brew install e2fsprogs
+diskutil list
+diskutil unmountdisk /dev/disk2
+sudo $(brew --prefix e2fsprogs)/sbin/mkfs.ext4 /dev/disk2
+diskutil eject /dev/disk2
 ```
 
 ## 启动容器
