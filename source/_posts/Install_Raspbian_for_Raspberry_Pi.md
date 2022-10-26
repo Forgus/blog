@@ -181,7 +181,7 @@ docker run -d --name docker-pi-dashboard -e 'LISTEN=1024' --net=host --restart=a
 ecat/docker-pi-dashboard
 sudo reboot
 # k3s
-curl -SfL http://rancher-mirror.cnrancher.com/k3s/k3s-install.sh \
+curl -SfL https://rancher-mirror.oss-cn-beijing.aliyuncs.com/k3s/k3s-install.sh \
 | INSTALL_K3S_MIRROR=cn sh -
 cat /var/lib/rancher/k3s/server/node-token
 curl -SfL https://rancher-mirror.oss-cn-beijing.aliyuncs.com/k3s/k3s-install.sh \
