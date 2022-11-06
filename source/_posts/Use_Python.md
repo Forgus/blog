@@ -47,7 +47,7 @@ names = children_name[:]
 # 元组,不可变列表
 children_name = ('小明','小刚')
 ```
-## 字典
+### 字典
 ```python
 # 定义空字典
 children = {}
