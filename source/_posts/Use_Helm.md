@@ -14,7 +14,7 @@ tags:
 ### Repository
 用于存放chart的仓库，分为本地仓库和远程仓库，类似git仓库。
 ### Hub
-用于存放repository的仓库中心，分为官方hub（https://artifacthub.io/）和自建hub
+用于存放repository的仓库中心，分为官方hub（https://artifacthub.io/) 和自建hub
 ### Release
 基于某个chart的运行实例，即运行于k8s上的软件服务，一个chart可以对应多个release，chart和release的关系类似容器镜像和容器的关系。
 ## 常用操作
