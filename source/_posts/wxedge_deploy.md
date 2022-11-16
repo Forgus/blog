@@ -39,3 +39,24 @@ registry.cn-hangzhou.aliyuncs.com/forgus/wxedge:2.4.2
 
 docker run -d --name=wxedge --privileged --net=host --tmpfs /run --tmpfs /tmp -v D:\wxedge:/storage:rw -e LISTEN_ADDR=":18888" -e REC=false registry.cn-hangzhou.aliyuncs.com/forgus/wxedge:2.4.1_x86
 ```
+## 硬盘常用操作
+```bash
+#将硬盘做成裸盘
+pvcreate /dev/sda
+vgcreate wxedge /dev/sda
+lvcreate -n storage -l 100%Free wxedge
+mkfs.ext4 /dev/wxedge/storage
+mount /dev/wxedge/storage /media/wxedge_storage
+#添加新硬盘
+umount /media/wxedge_storage
+vgextend wxedge /dev/sdb
+lvextend -l +100%FREE /dev/wxedge/storage
+resize2fs /dev/wxedge/storage
+mount /dev/wxedge/storage /media/wxedge_storage
+#将裸盘还原成普通硬盘
+umount /media/wxedge_storage
+lvremove /dev/wxedge/storage
+vgcremote wxedge
+pvremote /dev/sda
+
+```

@@ -48,6 +48,11 @@ helm ls
 # 卸载release
 helm uninstall RELEASE_NAME [...]
 ```
+## 国内环境使用姿势
+某些仓库国内环境无法访问，可通过手动下载chart的方式重新打包，再进行安装，方法如下：
+1. 查看仓库索引文件，如apisix的仓库索引文件为：https://charts.apiseven.com/index.yaml。
+2. 找到chart对应的github仓库地址，如：https://github.com/apache/apisix-helm-chart。
+3. 访问chart对应的github仓库地址，下载需要的chart压缩包，并用tar -zxvf 命令解压。
 
 
 
