@@ -35,6 +35,8 @@ docker run -d --name=wxedge --privileged --net=host --tmpfs /run --tmpfs /tmp \
 -v /media/wxedge_storage:/storage:rw \
 -e LISTEN_ADDR=":18888" -e NIC=eth0 -e REC=false \
 registry.cn-hangzhou.aliyuncs.com/forgus/wxedge:2.4.2
+# windows
+docker run -d -p 18888:18888 --name=wxedge --privileged --tmpfs /run --tmpfs /tmp -v D:\wxedge:/storage:rw -e REC=false registry.cn-hangzhou.aliyuncs.com/forgus/wxedge:2.4.1_x86
 ```
 ## 硬盘常用操作
 ```bash
