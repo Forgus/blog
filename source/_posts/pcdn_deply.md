@@ -1,11 +1,11 @@
 ---
-title: 网心容器魔方部署
-date: 2022-09-22
+title: pcdn部署
+date: 2022-12-11
 catalog: true
 tags:
-- 网心云
+- pcdn
 ---
-
+# 网心云
 ## 挂载移动硬盘
 
 ```bash
@@ -56,4 +56,17 @@ lvremove /dev/wxedge/storage
 vgcremote wxedge
 pvremote /dev/sda
 
+```
+# 甜糖
+```bash
+docker run -d \
+  -v /mnt/pcdn_storage:/mnt/data/ttnode \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v /proc:/host/proc:ro \
+  --name ttnode \
+  --hostname ttnode \
+  --privileged \
+  --net=host \
+  --restart=always \
+ registry.cn-hangzhou.aliyuncs.com/tiptime/ttnode:latest
 ```
