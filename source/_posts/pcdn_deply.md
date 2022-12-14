@@ -70,5 +70,7 @@ docker run -d \
   --privileged \
   --net=host \
   --restart=always \
+  --memory=4g \
+  --cpus=4 \
  registry.cn-hangzhou.aliyuncs.com/tiptime/ttnode:latest
 ```
