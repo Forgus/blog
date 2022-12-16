@@ -73,4 +73,6 @@ docker run -d \
   --memory=4g \
   --cpus=4 \
  registry.cn-hangzhou.aliyuncs.com/tiptime/ttnode:latest
+# windows
+docker run -d -v D:\pcdn_storage:/mnt/data/ttnode -v //var/run/docker.sock:/var/run/docker.sock  --name ttnode --hostname ttnode --privileged --net=host  --memory=4g --cpus=4 registry.cn-hangzhou.aliyuncs.com/tiptime/ttnode:latest
 ```
