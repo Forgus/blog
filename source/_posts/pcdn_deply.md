@@ -46,18 +46,21 @@ vgcreate wxedge /dev/sda
 lvcreate -n storage -l 100%Free wxedge
 mkfs.ext4 /dev/wxedge/storage
 mount /dev/wxedge/storage /media/wxedge_storage
-#添加新硬盘
-umount /media/wxedge_storage
+#扩展逻辑卷
+pvcreate /dev/sdb
 vgextend wxedge /dev/sdb
 lvextend -l +100%FREE /dev/wxedge/storage
 resize2fs /dev/wxedge/storage
+# 缩小逻辑卷
+umount /dev/wxedge/storage
+resize2fs /dev/wxedge/storage 500G
+lvreduce -L 500G /dev/wxedge/storage
 mount /dev/wxedge/storage /media/wxedge_storage
 #将裸盘还原成普通硬盘
 umount /media/wxedge_storage
 lvremove /dev/wxedge/storage
 vgcremote wxedge
 pvremote /dev/sda
-
 ```
 # 甜糖
 ```bash
